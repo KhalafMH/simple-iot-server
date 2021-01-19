@@ -4,6 +4,7 @@ from sys import stderr, argv
 from time import sleep
 
 import requests
+from requests import RequestException
 
 if len(argv) < 2:
     print(f"usage: {argv[0]} <sensor_id>")
@@ -26,7 +27,7 @@ while True:
     print(f"sending reading: {reading}")
     try:
         requests.request("post", "http://localhost:5000/sensor-readings", json=reading)
-    except:
+    except RequestException as e:
         print("request failed", file=stderr)
 
     sleep(1.0)
