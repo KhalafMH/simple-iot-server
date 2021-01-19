@@ -1,11 +1,14 @@
 import random
 from datetime import datetime
-from sys import stderr
+from sys import stderr, argv
 from time import sleep
 
 import requests
 
-next_id = 1
+if len(argv) < 2:
+    print(f"usage: {argv[0]} <sensor_id>")
+    exit(1)
+sensor_id = argv[1]
 
 while True:
     value = random.random() * 50.0 - 25.0
@@ -14,7 +17,7 @@ while True:
     else:
         alert = False
     reading = {
-        "id": next_id,
+        "id": sensor_id,
         "type": "temperature",
         "value": value,
         "alert": alert,
@@ -26,5 +29,4 @@ while True:
     except:
         print("request failed", file=stderr)
 
-    next_id += 1
     sleep(1.0)
