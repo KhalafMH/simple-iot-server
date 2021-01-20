@@ -1,0 +1,18 @@
+version: "2.4"
+
+services:
+  cassandra1:
+    image: bitnami/cassandra:3
+    volumes:
+      - ./local/data:/bitnami
+    ports:
+      - 9042:9042
+    environment:
+      CASSANDRA_HOST: cassandra1
+      CASSANDRA_USER: sensor_app
+      CASSANDRA_PASSWORD: "Y6p4b152J2fZ"
+      CASSANDRA_PASSWORD_SEEDER: "yes"
+      CASSANDRA_SEEDS: cassandra1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+      CASSANDRA_DATACENTER: docker_1
+      CASSANDRA_RACK: rack_1

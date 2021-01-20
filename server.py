@@ -1,27 +1,25 @@
-from datetime import datetime
-
 from flask import Flask, request, jsonify, Response
 
+from database_utils import *
+
 app = Flask(__name__)
-
-
-readings = []
 
 
 @app.route("/sensor-readings", methods=["POST"])
 def add_reading():
     reading = request.json
-    readings.append(reading)
+    add_reading_to_database(reading)
     return Response(status=204)
 
 
 @app.route("/sensor-readings", methods=["GET"])
-def get_reading():
+def get_readings():
     since_arg = request.args.get("since")
+    sensor_id = request.args.get("sensor_id")
     if since_arg is None:
-        return jsonify(readings)
+        return jsonify(get_readings_from_database(id=sensor_id))
     since = datetime.fromisoformat(since_arg)
-    result = list(filter(lambda reading: datetime.fromisoformat(reading['timestamp']) >= since, readings))
+    result = get_all_readings_from_database_since_timestamp(timestamp=since, id=sensor_id)
     return jsonify(result)
 
 
