@@ -24,4 +24,4 @@ def get_readings():
 
 
 if __name__ == '__main__':
-    Flask.run(app)
+    Flask.run(app, port="8080")

@@ -26,7 +26,7 @@ while True:
     }
     print(f"sending reading: {reading}")
     try:
-        requests.request("post", "http://localhost:5000/sensor-readings", json=reading)
+        requests.request("post", "http://localhost:8080/sensor-readings", json=reading)
     except RequestException as e:
         print("request failed", file=stderr)
 
