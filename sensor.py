@@ -1,5 +1,5 @@
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from sys import stderr, argv
 from time import sleep
 
@@ -22,7 +22,7 @@ while True:
         "type": "temperature",
         "value": value,
         "alert": alert,
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().astimezone(timezone.utc).isoformat()
     }
     print(f"sending reading: {reading}")
     try:

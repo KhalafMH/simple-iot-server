@@ -13,7 +13,7 @@ def get_year_month(dt):
 
 def get_year_months_since_timestamp(timestamp: datetime):
     year_months = []
-    now = datetime.utcnow()
+    now = datetime.now().astimezone(timezone.utc)
     i = timestamp.astimezone(timezone.utc)
     while i.year < now.year or (i.year == now.year and i.month <= now.month):
         year_months.append(get_year_month(i))
@@ -51,7 +51,7 @@ def add_reading_to_database(reading):
 
 def get_readings_from_database(id=None, year_month=None):
     if year_month is None:
-        year_month = get_year_month(datetime.utcnow())
+        year_month = get_year_month(datetime.now().astimezone(timezone.utc))
     if id is None:
         cursor = cassandra_session.execute(
             "SELECT id, type, value, alert, timestamp FROM readings WHERE year_month = %(year_month)s ALLOW FILTERING",
