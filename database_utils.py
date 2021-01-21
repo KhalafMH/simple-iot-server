@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
+from iso8601 import iso8601
 
 cassandra_auth_provider = PlainTextAuthProvider(username="sensor_app", password="Y6p4b152J2fZ")
 cassandra_session = Cluster(auth_provider=cassandra_auth_provider).connect("sensor_app")
@@ -33,7 +34,7 @@ def reading_record_mapper(record):
 
 
 def add_reading_to_database(reading):
-    timestamp = datetime.fromisoformat(reading["timestamp"]).astimezone(timezone.utc)
+    timestamp = iso8601.parse_date(reading["timestamp"]).astimezone(timezone.utc)
     year_month = timestamp.strftime("%Y-%m")
     cassandra_session.execute(
         "INSERT INTO readings (id, year_month, timestamp, type, value, alert)"

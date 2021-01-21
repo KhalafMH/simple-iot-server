@@ -18,7 +18,7 @@ def get_readings():
     sensor_id = request.args.get("sensor_id")
     if since_arg is None:
         return jsonify(get_readings_from_database(id=sensor_id))
-    since = datetime.fromisoformat(since_arg)
+    since = iso8601.parse_date(since_arg).astimezone(timezone.utc)
     result = get_all_readings_from_database_since_timestamp(timestamp=since, id=sensor_id)
     return jsonify(result)
 
